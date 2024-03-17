@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
+const Student = require('../models/student');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser")
 
@@ -15,28 +15,41 @@ app.use(
 );
 //Routes
 
-router.get('', (req, res) => {
+router.get('', async(req, res) => {
     const locals = {
         title: "Edu Track",
         description: "University of ......"
     }
-    res.render('index', { locals });
+    try{
+      const data = await  Student.find();
+      res.render('index', { locals, data});
+    }
+    catch(error){
+      console.log(error);
+    }
 });
 
-router.post('/', (req, res, next) => {
+router.post('/create', (req, res, next) => {
   // console.log(req.body);
-  const user = new User({
+  const student = new Student({
     _id: new mongoose.Types.ObjectId,
+    student_id: req.body.student_id,
     name:req.body.name,
-    age:req.body.age,
+    email:req.body.email,
+    dob:req.body.dob,
+    subject:req.body.subject,
+    location:req.body.location,
+    is_agree: req.body.is_agree,
+    is_correspondence: req.body.is_correspondence,
+    status:req.body.status
   });
-  user.save().then(result => {
+  student.save().then(result => {
     console.log(result);
   })
   .catch(err => console.log(err));
   res.status(201).json({
-    message: 'Handling Post request to /users',
-    createdUser: user,
+    message: 'Handling Post request to /student',
+    createdStudent: student,
   })
 })
 

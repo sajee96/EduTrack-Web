@@ -16,47 +16,25 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
-              <td>Sajeevan Parimlakanthan</td>
-              <td>Sajeevn96@gmail.com</td>
-              <td>20.03.1996</td>
-              <td>Computer Science</td>
-              <td>UK</td>
-              <td>Approved</td>
+              <% data.forEach(user => { %>
+                  <a href="/<%= user._id %>">
+                  </a>
+                <!-- <th scope="row">1</th> -->
+                <th><%= user.student_id %></th>
+                <th><%= user.name %></th>
+                <th><%= user.email %></th>
+                <th><%= user.dob %></th>
+                <th><%= user.subject %></th>
+                <th><%= user.location %></th>
+                <th><%= user.status %></th>
               <td style="width:15%">
                 <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
                 <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
               <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
               </td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Sajeevan Parimlakanthan</td>
-                <td>Sajeevn96@gmail.com</td>
-                <td>20.03.1996</td>
-                <td>Computer Science</td>
-                <td>UK</td>
-                <td>Pending</td>
-                <td>
-                  <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
-                  <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Sajeevan Parimlakanthan</td>
-                <td>Sajeevn96@gmail.com</td>
-                <td>20.03.1996</td>
-                <td>Computer Science</td>
-                <td>UK</td>
-                <td>Pending</td>
-                <td>
-                  <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
-                  <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                </td>
-              </tr>
+ 
+            <% }) %>
           </tbody>
         </table>
       </div>
