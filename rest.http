@@ -1,0 +1,13 @@
+GET http://localhost:5000/
+
+### Login Route
+POST http://localhost:5000/auth/login
+
+### register Route
+POST http://localhost:5000/auth/register
+
+### Refresh token Route
+POST http://localhost:5000/auth/refresh-token
+
+### logout Route
+DELETE http://localhost:5000/auth/logout

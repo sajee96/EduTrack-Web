@@ -15,6 +15,22 @@ app.use(
 );
 //Routes
 
+router.post('/register', async(req, res, next) =>{
+  res.send('register route')
+});
+
+router.post('/login', async(req, res, next) =>{
+  res.send('Login route')
+});
+
+router.post('/refresh-token', async(req, res, next) =>{
+  res.send('Refresh route')
+});
+
+router.delete('/logout', async(req, res, next) =>{
+  res.send('Logout route')
+});
+
 router.get('', async(req, res) => {
     const locals = {
         title: "Edu Track",
@@ -29,7 +45,7 @@ router.get('', async(req, res) => {
     }
 });
 
-router.post('/create', (req, res, next) => {
+router.post('/create-student', (req, res, next) => {
   // console.log(req.body);
   const student = new Student({
     _id: new mongoose.Types.ObjectId,
