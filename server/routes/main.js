@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../models/student');
+const Admin = require('../models/admin')
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser")
+const createError = require('http-errors');
 
 router.use(express.json())
 
@@ -16,7 +18,23 @@ app.use(
 //Routes
 
 router.post('/register', async(req, res, next) =>{
-  res.send('register route')
+  try{
+    const {email, password} = req.body;
+    if(!email || !password) throw createError.BadRequest();
+
+    const doesExist = await Admin.findOne({email: email});
+    if(doesExist){
+      throw createError.conflict(`${email} is already been registered`);
+    }
+
+    const admin = new Admin({email, password})
+    const savedAdmin = await admin.save();
+
+    res.send(savedAdmin);
+  }
+  catch(error){
+    next(error);
+  }
 });
 
 router.post('/login', async(req, res, next) =>{

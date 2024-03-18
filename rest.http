@@ -5,6 +5,12 @@ POST http://localhost:5000/auth/login
 
 ### register Route
 POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "email": "sajeevn960@gmil.com",
+    "password": "1234"
+}
 
 ### Refresh token Route
 POST http://localhost:5000/auth/refresh-token
