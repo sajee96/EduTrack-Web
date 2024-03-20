@@ -5,6 +5,8 @@ const Admin = require('../models/admin')
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser")
 const createError = require('http-errors');
+const {authSchema} = require('../config/validation_schema');
+const {signAccessToken} = require('../config/jwt_helper');
 
 router.use(express.json())
 
@@ -20,19 +22,22 @@ app.use(
 router.post('/register', async(req, res, next) =>{
   try{
     const {email, password} = req.body;
-    if(!email || !password) throw createError.BadRequest();
+    // if(!email || !password) throw createError.BadRequest();
+    const result = await authSchema.validateAsync(req.body);
+    console.log(result)
 
-    const doesExist = await Admin.findOne({email: email});
+    const doesExist = await Admin.findOne({email: result.email});
     if(doesExist){
-      throw createError.conflict(`${email} is already been registered`);
+      throw createError.Conflict(`${email} is already been registered`);
     }
 
     const admin = new Admin({email, password})
     const savedAdmin = await admin.save();
-
-    res.send(savedAdmin);
+    const accessToken = await signAccessToken(savedAdmin.id)
+    res.send({accessToken});
   }
   catch(error){
+    if(error.isJoi === true) error.status = 422
     next(error);
   }
 });
