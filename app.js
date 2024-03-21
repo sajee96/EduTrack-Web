@@ -10,7 +10,7 @@ const AuthRoute = require('./server/routes/main');
 
 const app = express();
 app.use(morgan('dev'));
-const PORT = 5000 || process.env.PORT;
+const PORT = 8080 || process.env.PORT;
 
 // connect to db
 connectDB();
