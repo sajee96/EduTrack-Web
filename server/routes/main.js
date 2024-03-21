@@ -44,8 +44,15 @@ router.post('/register', async(req, res, next) =>{
 });
 
 router.post('/login', async(req, res, next) =>{
+  // Content-Type: application/json
+
+const adminData= {
+    "email": "harish@gmail.com",
+    "password": "123456"
+}
+
   try{
-    const result = await authSchema.validateAsync(req.body)
+    const result = await authSchema.validateAsync(adminData)
     const admin = await Admin.findOne({email:result.email})
 
     if(!admin) throw createError.NotFound('User not registered')
@@ -54,7 +61,9 @@ router.post('/login', async(req, res, next) =>{
 
     const accessToken = await signAccessToken(admin.id)
 
-    res.send({accessToken})
+    const data = await  Student.find();
+      res.render('students', { data});
+    // res.send({accessToken})
   }catch(error){
     if(error.isJoi === true)
     return next(createError.BadRequest('Invalid Username/Password'))
@@ -79,7 +88,7 @@ router.get('/', async(req, res) => {
     }
     try{
       const data = await  Student.find();
-      res.render('index', { locals, data});
+      res.render('login', { locals, data});
     }
     catch(error){
       console.log(error);
