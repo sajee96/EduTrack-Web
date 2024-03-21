@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser")
 const createError = require('http-errors');
 const {authSchema} = require('../config/validation_schema');
-const {signAccessToken} = require('../config/jwt_helper');
+const {signAccessToken, verifyAccessToken} = require('../config/jwt_helper');
+// const {verifyAccessToken} = require('../config/jwt_helper')
 
 router.use(express.json())
 
@@ -43,7 +44,22 @@ router.post('/register', async(req, res, next) =>{
 });
 
 router.post('/login', async(req, res, next) =>{
-  res.send('Login route')
+  try{
+    const result = await authSchema.validateAsync(req.body)
+    const admin = await Admin.findOne({email:result.email})
+
+    if(!admin) throw createError.NotFound('User not registered')
+    const isMatch = await admin.isValidPassword(result.password)
+    if (!isMatch) throw createError.Unauthorized('username/password not valid')
+
+    const accessToken = await signAccessToken(admin.id)
+
+    res.send({accessToken})
+  }catch(error){
+    if(error.isJoi === true)
+    return next(createError.BadRequest('Invalid Username/Password'))
+    next(error)
+  }
 });
 
 router.post('/refresh-token', async(req, res, next) =>{
@@ -54,7 +70,9 @@ router.delete('/logout', async(req, res, next) =>{
   res.send('Logout route')
 });
 
-router.get('', async(req, res) => {
+router.get('/', async(req, res) => {
+  // console.log(req.headers['authorization'])
+  // res.send('Hello express')
     const locals = {
         title: "Edu Track",
         description: "University of ......"

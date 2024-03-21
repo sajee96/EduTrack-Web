@@ -1,14 +1,21 @@
 GET http://localhost:5000/
+Authorization: : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTA5Njk4OTAsImV4cCI6MTcxMDk3MzQ5MCwiYXVkIjoiNjVmYjRiODBkYWQ3OTk1ZjRhMzg3Mzc3IiwiaXNzIjoicGlja3VycGFnZS5jb20ifQ.hex81GJrcWLK8ZyF_POjOuXamVjs6d4pqPjQI28n8m8
 
 ### Login Route
 POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "harish@gmail.com",
+    "password": "123456"
+}
 
 ### register Route
 POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "email": "atsajeev56778nw@gmail.com",
+    "email": "harish@gmail.com",
     "password": "123456"
 }
 
